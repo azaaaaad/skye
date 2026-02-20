@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skye's</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <style>
+        body {
+            background-color: #121212; /* Dark theme */
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            background: -webkit-linear-gradient(#ff7eb3, #ff758c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .swiper {
+            width: 300px;
+            height: 300px;
+        }
+
+        .swiper-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px; /* Cubical/Square look with slightly rounded edges */
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #282828;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        .album-cover {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .song-info {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 0;
+            text-align: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .song-title {
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .song-artist {
+            font-size: 0.9rem;
+            color: #b3b3b3;
+            margin: 5px 0 0 0;
+            font-weight: normal;
+        }
+
+        /* Hidden audio player to handle playback */
+        audio {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Skye's</h1>
+
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper" id="playlist-container">
+            </div>
+    </div>
+
+    <audio id="main-player" controls></audio>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // Your curated tracklist
+        const tracks = [
+            { title: "Take me to church", artist: "Hozier", cover: "covers/1.jpg", audio: "audio/1.mp3" },
+            { title: "Sanun Nahar Wale Pool", artist: "Noor Jehan", cover: "covers/2.jpg", audio: "audio/2.mp3" },
+            { title: "Likhe Jo Khat Tujhe", artist: "Mohammed Rafi", cover: "covers/3.jpg", audio: "audio/3.mp3" },
+            { title: "Tum Se Hi", artist: "Pritam", cover: "covers/4.jpg", audio: "audio/4.mp3" },
+            { title: "Dhiki Dhiki", artist: "Miles", cover: "covers/5.jpg", audio: "audio/5.mp3" },
+            { title: "Phiriye Dao", artist: "Miles", cover: "covers/6.jpg", audio: "audio/6.mp3" },
+            { title: "Prithibi", artist: "Mohiner Ghoraguli", cover: "covers/7.jpg", audio: "audio/7.mp3" },
+            { title: "I thought I saw your face", artist: "Unknown", cover: "covers/8.jpg", audio: "audio/8.mp3" },
+            { title: "Khwaja Mere Khwaja", artist: "A.R. Rahman", cover: "covers/9.jpg", audio: "audio/9.mp3" },
+            { title: "Golapi", artist: "Unknown", cover: "covers/10.jpg", audio: "audio/10.mp3" },
+            { title: "Up all night", artist: "One Direction", cover: "covers/11.jpg", audio: "audio/11.mp3" }
+        ];
+
+        const container = document.getElementById('playlist-container');
+        const audioPlayer = document.getElementById('main-player');
+
+        // Dynamically create the cards
+        tracks.forEach(track => {
+            const slide = document.createElement('div');
+            slide.className = 'swiper-slide';
+            slide.innerHTML = `
+                <img src="${track.cover}" class="album-cover" alt="${track.title}">
+                <div class="song-info">
+                    <h2 class="song-title">${track.title}</h2>
+                    <h3 class="song-artist">${track.artist}</h3>
+                </div>
+            `;
+            container.appendChild(slide);
+        });
+
+        // Initialize the Swipe mechanics
+        const swiper = new Swiper(".mySwiper", {
+            effect: "cards",
+            grabCursor: true,
+            on: {
+                // When the active card changes, change the song
+                slideChange: function () {
+                    playSong(this.activeIndex);
+                }
+            }
+        });
+
+        // Function to handle playing audio
+        function playSong(index) {
+            audioPlayer.src = tracks[index].audio;
+            // Browsers require a user interaction before auto-playing. 
+            // We wrap it in a try-catch so it doesn't throw errors on the very first load.
+            let playPromise = audioPlayer.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Waiting for user interaction to play audio...");
+                });
+            }
+        }
+
+        // Tap the top card to start playing (bypasses browser autoplay restrictions)
+        document.querySelector('.swiper').addEventListener('click', () => {
+             if(audioPlayer.paused) {
+                 playSong(swiper.activeIndex);
+             }
+        });
+    </script>
+</body>
+</html>
