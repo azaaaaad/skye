@@ -77,7 +77,6 @@
             font-weight: normal;
         }
 
-        /* NEW: Styling for the Play/Pause Button */
         #play-pause-btn {
             margin-top: 40px;
             padding: 12px 40px;
@@ -119,18 +118,19 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
+        // Tracklist paths updated to match your GitHub uploads!
         const tracks = [
-            { title: "Take me to church", artist: "Hozier", cover: "covers/1.jpg", audio: "audio/1.mp3" },
-            { title: "Sanun Nahar Wale Pool", artist: "Noor Jehan", cover: "covers/2.jpg", audio: "audio/2.mp3" },
-            { title: "Likhe Jo Khat Tujhe", artist: "Mohammed Rafi", cover: "covers/3.jpg", audio: "audio/3.mp3" },
-            { title: "Tum Se Hi", artist: "Pritam", cover: "covers/4.jpg", audio: "audio/4.mp3" },
-            { title: "Dhiki Dhiki", artist: "Miles", cover: "covers/5.jpg", audio: "audio/5.mp3" },
-            { title: "Phiriye Dao", artist: "Miles", cover: "covers/6.jpg", audio: "audio/6.mp3" },
-            { title: "Prithibi", artist: "Mohiner Ghoraguli", cover: "covers/7.jpg", audio: "audio/7.mp3" },
-            { title: "I thought I saw your face", artist: "Unknown", cover: "covers/8.jpg", audio: "audio/8.mp3" },
-            { title: "Khwaja Mere Khwaja", artist: "A.R. Rahman", cover: "covers/9.jpg", audio: "audio/9.mp3" },
-            { title: "Golapi", artist: "Unknown", cover: "covers/10.jpg", audio: "audio/10.mp3" },
-            { title: "Up all night", artist: "One Direction", cover: "covers/11.jpg", audio: "audio/11.mp3" }
+            { title: "Take me to church", artist: "Hozier", cover: "1.jpg", audio: "1.mp3" },
+            { title: "Sanun Nahar Wale Pool", artist: "Noor Jehan", cover: "2.jpg", audio: "2.mp3" },
+            { title: "Likhe Jo Khat Tujhe", artist: "Mohammed Rafi", cover: "3.jpg", audio: "3.mp3" },
+            { title: "Tum Se Hi", artist: "Pritam", cover: "4.jpg", audio: "4.mp3" },
+            { title: "Dhiki Dhiki", artist: "Miles", cover: "5.jpg", audio: "5.mp3" },
+            { title: "Phiriye Dao", artist: "Miles", cover: "6.jpg", audio: "6.mp3" },
+            { title: "Prithibi", artist: "Mohiner Ghoraguli", cover: "7.jpg", audio: "7.mp3" },
+            { title: "I thought I saw your face", artist: "Unknown", cover: "8.jpg", audio: "8.mp3" },
+            { title: "Khwaja Mere Khwaja", artist: "A.R. Rahman", cover: "9.jpg", audio: "9.mp3" },
+            { title: "Golapi", artist: "Unknown", cover: "10.jpg", audio: "10.mp3" },
+            { title: "Up all night", artist: "One Direction", cover: "11.jpg", audio: "11.mp3" }
         ];
 
         const container = document.getElementById('playlist-container');
@@ -170,7 +170,6 @@
             }
         }
 
-        // NEW: Function to sync button text with audio state
         function updateButtonText() {
             if (audioPlayer.paused) {
                 playPauseBtn.innerHTML = "▶ Play";
@@ -179,9 +178,7 @@
             }
         }
 
-        // NEW: Click event for the Play/Pause button
         playPauseBtn.addEventListener('click', () => {
-            // If the audio source is empty (first load), set it to the first track
             if (!audioPlayer.src) {
                 audioPlayer.src = tracks[swiper.activeIndex].audio;
             }
@@ -193,7 +190,6 @@
             }
         });
 
-        // NEW: Listeners to automatically update the button when swiping changes the song
         audioPlayer.addEventListener('play', updateButtonText);
         audioPlayer.addEventListener('pause', updateButtonText);
 
